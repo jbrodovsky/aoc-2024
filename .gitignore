@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Specific
+day0/hello_world_cpp
+day0/hello_world_rust
