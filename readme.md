@@ -6,4 +6,6 @@ It's been a while since I've worked in C++, so I figured I'd dive in to [Advent 
 
 I've always had a love-hate relationship with C++, even worse with C. I still don't really get header files and maybe it's my Python and even worse Matlab experience, I'm much more accustomed to `self.my_data` syntax than the scoping in C++. Its not neccessarily better or worse, just different. That said, when I simply *look* at Rust, it looks like what I want. The syntax looks like Python and C/C++ had a baby. The borrow checker allows for compiled performance with Python memory safety (and I know that probably made some Rustaceans cringe) by keeping the guard rails on to make sure I don't end up accidentally blowing my leg off.
 
-So I plan on doing the 2024 Advent of Code twice: first time around in C++ to knock off some - sorry, pun incoming - rust, and second time around using Rust to star to learn the language and the syntax. I'll be posting my solutions and comparisons along the way and my thoughts on working in both.
+So I plan on doing the 2024 Advent of Code twice: first time around in C++ to knock off some - sorry, pun incoming - rust, and second time around using Rust to start to learn the language and the syntax. I'll be posting my solutions and comparisons along the way and my thoughts on working in both.
+
+I will be doing this in a very bare-bones manner. I'll only be using the standard library, and directly using the compiler and no build system.
