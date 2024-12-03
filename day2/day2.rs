@@ -11,7 +11,7 @@ fn parse_line(line: String) -> Vec<i32> {
     return numbers;
 }
 
-fn calculate_difference(report: Vec<i32>) -> Vec<i32> {
+fn calculate_difference(report: &Vec<i32>) -> Vec<i32> {
     let mut differences: Vec<i32> = Vec::new();
     for i in 1..report.len() {
         differences.push(report[i] - report[i-1]);
@@ -19,22 +19,32 @@ fn calculate_difference(report: Vec<i32>) -> Vec<i32> {
     return differences;
 }
 
-fn all_positive(differences: Vec<i32>) -> bool {
+fn all_positive(differences: &Vec<i32>) -> bool {
     for diff in differences {
-        if diff < 0 {
+        if *diff < 0 {
             return false;
         }
     }
     return true;
 }
-
-fn all_negative(differences: Vec<i32>) -> bool {
+fn all_negative(differences: &Vec<i32>) -> bool {
     for diff in differences {
-        if diff > 0 {
+        if *diff > 0 {
             return false;
         }
     }
     return true;
+}
+fn check_levels(differences: &Vec<i32>) -> bool {
+    if all_positive(&differences) || all_negative(&differences) {
+        for diff in differences {
+            if diff.abs() > 3 || diff.abs() < 1 {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 fn main(){
@@ -56,4 +66,17 @@ fn main(){
     }
     // print the number of reports
     println!("Number of reports: {}", reports.len());
+    let mut safe_reports = 0;
+    for report in reports {
+        let differences = calculate_difference(&report);
+        if check_levels(&differences) {
+            //println!("Report: {:?} | {:?} is SAFE", report, differences);
+            safe_reports += 1;
+        }
+        else {
+            println!("Report: {:?} | {:?} is UNSAFE", report, differences);
+        }
+    }
+
+    println!("Number of safe reports: {}", safe_reports);
 }
