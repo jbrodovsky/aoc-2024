@@ -1,6 +1,7 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 
+
 // Recieve a line of the input file and transform it into a Vec<i32>
 fn parse_line(line: String) -> Vec<i32> {
     //let line = line.unwrap();
@@ -11,7 +12,7 @@ fn parse_line(line: String) -> Vec<i32> {
     return numbers;
 }
 
-fn calculate_difference(report: &Vec<i32>) -> Vec<i32> {
+fn calculate_differences(report: &Vec<i32>) -> Vec<i32> {
     let mut differences: Vec<i32> = Vec::new();
     for i in 1..report.len() {
         differences.push(report[i] - report[i-1]);
@@ -36,13 +37,30 @@ fn all_negative(differences: &Vec<i32>) -> bool {
     return true;
 }
 fn check_levels(differences: &Vec<i32>) -> bool {
-    if all_positive(&differences) || all_negative(&differences) {
-        for diff in differences {
-            if diff.abs() > 3 || diff.abs() < 1 {
-                return false;
-            }
+    if !(all_positive(&differences) || all_negative(&differences)) {
+        return false;
+    }
+    for diff in differences {
+        if diff.abs() > 3 || diff.abs() < 1 {
+            return false;
         }
-        return true;
+    }
+    return true;
+}
+
+/*
+The Problem Dampener is a reactor-mounted module that lets the reactor safety systems tolerate a single bad level in what would otherwise be a safe report. It's like the bad level never happened!
+
+Now, the same rules apply as before, except if removing a single level from an unsafe report would make it safe, the report instead counts as safe.
+*/
+
+fn check_levels_damped(report: &Vec<i32>) -> bool {
+    for i in 0..report.len() {
+        let mut damped = report.clone();
+        damped.remove(i);
+        if check_levels(&calculate_differences(&damped)) {
+            return true;
+        }
     }
     return false;
 }
@@ -67,16 +85,30 @@ fn main(){
     // print the number of reports
     println!("Number of reports: {}", reports.len());
     let mut safe_reports = 0;
-    for report in reports {
-        let differences = calculate_difference(&report);
+    for report in &reports {
+        let differences = calculate_differences(&report);
         if check_levels(&differences) {
             //println!("Report: {:?} | {:?} is SAFE", report, differences);
             safe_reports += 1;
         }
+    }
+    println!("Part 1 | Number of safe reports: {}", safe_reports);
+    // Part 2
+    safe_reports = 0;
+    for report in &reports {
+        let differences = calculate_differences(&report);
+        if check_levels(&differences) {
+            //println!("Report: {:?} | {:?} is SAFE", report, differences);
+            safe_reports += 1;
+        }
+        else if check_levels_damped(&report) {
+            //println!("Report: {:?} | {:?} is SAFE", report, differences);
+            safe_reports += 1;
+        }
         else {
-            println!("Report: {:?} | {:?} is UNSAFE", report, differences);
+            //println!("Report: {:?} | {:?} is UNSAFE", report, differences);
+            //println!("... UNSAFE")
         }
     }
-
-    println!("Number of safe reports: {}", safe_reports);
+    println!("Part 2 | Number of safe reports when damped: {}", safe_reports);
 }

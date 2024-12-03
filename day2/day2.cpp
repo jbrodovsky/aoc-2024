@@ -50,16 +50,35 @@ bool allNegative(const std::vector<int>& differences) {
 
 
 bool checkLevels(const std::vector<int>& differences){
-    if (allPositive(differences) || allNegative(differences)) {
-        // Check to see if the magnitude of the differences is within the specified range of >= 1 and <= 3
-        for (int diff : differences) {
-            if (std::abs(diff) < 1 || std::abs(diff) > 3) {
-                return false;
-            }
-        }
-        return true;
+    if (!(allPositive(differences) || allNegative(differences))) {
+        return false;
     }
-    return false;    
+    // Check to see if the magnitude of the differences is within the specified range of >= 1 and <= 3
+    for (int diff : differences) {
+        if (std::abs(diff) < 1 || std::abs(diff) > 3) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/*
+The Problem Dampener is a reactor-mounted module that lets the reactor safety systems tolerate a single bad level in what would otherwise be a safe report. It's like the bad level never happened!
+
+Now, the same rules apply as before, except if removing a single level from an unsafe report would make it safe, the report instead counts as safe.
+*/
+
+bool checkLevelsDamped(const std::vector<int>& report){
+    for (int i = 0; i < report.size(); i++) {
+        //std::vector<int> damped = report;
+        // copy the report into a new vector called damped
+        std::vector<int> damped(report);
+        damped.erase(damped.begin() + i);
+        if (checkLevels(calculateDifferences(damped))) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int main(int argc, char* argv[]){
@@ -90,25 +109,25 @@ int main(int argc, char* argv[]){
     int safeReports = 0;
 
     for (const std::vector<int>& report : reports) {
-        // Print the raw report
-        for (int level : report) {
-            std::cout << level << " ";
-        }
-        std::cout << "| ";
         std::vector<int> differences = calculateDifferences(report);
-        // Print out the differences for each report
-        for (int diff : differences) {
-            std::cout << diff << " ";
-        }
-        std::cout << "| ";
         if (checkLevels(differences)) {
-            std::cout << "Safe" << std::endl;
             safeReports++;
         }
-        else {
-            std::cout << "Unsafe" << std::endl;
+     }
+
+    std::cout << "Part 1 | Number of safe reports: " << safeReports << std::endl;
+
+    // --- Part 2 -----
+    safeReports = 0;
+    for (const std::vector<int>& report : reports) {
+        std::vector<int> differences = calculateDifferences(report);
+        if (checkLevels(differences)) {
+            safeReports++;
+        }
+        else if (checkLevelsDamped(report)) {
+            safeReports++;
         }
     }
 
-    std::cout << "Part 1 | Number of safe reports: " << safeReports << std::endl;
+    std::cout << "Part 2 | Number of safe reports when damped: " << safeReports << std::endl;
 }
