@@ -70,8 +70,6 @@ Now, the same rules apply as before, except if removing a single level from an u
 
 bool checkLevelsDamped(const std::vector<int>& report){
     for (int i = 0; i < report.size(); i++) {
-        //std::vector<int> damped = report;
-        // copy the report into a new vector called damped
         std::vector<int> damped(report);
         damped.erase(damped.begin() + i);
         if (checkLevels(calculateDifferences(damped))) {

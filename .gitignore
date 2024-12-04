@@ -34,3 +34,8 @@
 # Specific
 day0/hello_world_cpp
 day0/hello_world_rust
+day3/target
+
+rs
+cpp
+.vscode/settings.json
