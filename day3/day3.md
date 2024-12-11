@@ -23,3 +23,5 @@ print(calculate_sum_of_products(memory)) # Output: 44
 ```
 
 So this problem is going to be a bit more difficult to solve in Rust as the Rust standard library does not support regular expressions. That said, one of the maintainers of the [`regex`](https://crates.io/crates/regex) crate is the [Rust language maintainers](https://github.com/rust-lang) soooo... I'm considering this fair game.
+
+Part two of this problem introdues a new command: `do()` and `don't()` which act as a "toggle" for the `mul` command. If `do()` is called, the following `mul` commands are executed, if `don't()` is called, the `mul` commands are ignored. Again, the goal is to calculate the sum of all the products of the `mul` commands that are executed. 
