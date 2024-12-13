@@ -35,7 +35,11 @@
 day0/hello_world_cpp
 day0/hello_world_rust
 day3/target
+day4/target
 
+# Binaries
 rs
 cpp
+
+# VS Code settings
 .vscode/settings.json
